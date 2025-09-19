@@ -30,16 +30,6 @@ def show_dashboard():
     counts = {bio: sum(bio in comp for comp in df["composition"]) for bio in biosignatures}
     st.bar_chart(pd.Series(counts))
 
-    st.write("### Molecule Icon Preview")
-    cols = st.columns(len(biosignatures))
-    for i, mol in enumerate(biosignatures):
-        with cols[i]:
-            icon_path = f"assets/molecule_icons/{mol}.png"
-            if os.path.exists(icon_path):
-                st.image(icon_path, width=50, caption=mol)
-            else:
-                st.markdown(f"🧪 {mol}")
-
     show_leaderboard(df)
 
 def export_tools(df, wavelengths=None, spectrum=None):
@@ -49,16 +39,24 @@ def export_tools(df, wavelengths=None, spectrum=None):
     csv = df.to_csv(index=False).encode('utf-8')
     st.download_button("📁 Download Logs (CSV)", data=csv, file_name="hyceanscope_logs.csv", mime="text/csv")
 
-    # Export spectrum as PNG or HTML fallback
+    # Export spectrum as PNG
     if wavelengths and spectrum is not None:
-        fig = plot_spectrum(wavelengths, spectrum)
-        try:
-            png_bytes = pio.to_image(fig, format="png")
-            st.download_button("🖼️ Download Spectrum (PNG)", data=png_bytes, file_name="spectrum.png", mime="image/png")
-        except Exception:
-            st.warning("⚠️ PNG export failed. Using HTML fallback instead.")
-            html_bytes = fig.to_html().encode("utf-8")
-            st.download_button("🌐 Download Spectrum (HTML)", data=html_bytes, file_name="spectrum.html", mime="text/html")
+    fig = plot_spectrum(wavelengths, spectrum)
+    try:
+        png_bytes = pio.to_image(fig, format="png")
+        st.download_button("🖼️ Download Spectrum (PNG)", data=png_bytes, file_name="spectrum.png", mime="image/png")
+    except Exception:
+        st.warning("⚠️ PNG export failed. Using HTML fallback instead.")
+        html_bytes = fig.to_html().encode("utf-8")
+        st.download_button("🌐 Download Spectrum (HTML)", data=html_bytes, file_name="spectrum.html", mime="text/html")
+
+    # if wavelengths and spectrum is not None:
+    #     fig = plot_spectrum(wavelengths, spectrum)
+    #     try:
+    #         png_bytes = pio.to_image(fig, format="png")
+    #         st.download_button("🖼️ Download Spectrum (PNG)", data=png_bytes, file_name="spectrum.png", mime="image/png")
+    #     except ValueError:
+    #         st.warning("⚠️ Kaleido is not installed. Run `pip install kaleido` to enable image export.")
 
 def show_leaderboard(df):
     st.subheader("🏆 Classroom Leaderboard")
