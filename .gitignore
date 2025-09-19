@@ -1,0 +1,55 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Streamlit config and cache
+.streamlit/config.toml
+.streamlit/secrets.toml
+.streamlit/cache/
+.streamlit/state/
+
+# Jupyter notebooks (if used)
+.ipynb_checkpoints/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+*.env
+*.venv/
+venv/
+env/
+.conda/
+*.conda
+
+# Data and logs
+data/*.csv
+data/*.json
+data/*.xlsx
+*.sqlite3
+
+# IDE and editor folders
+.vscode/
+.idea/
+*.swp
+
+# RDKit or py3Dmol artifacts (if any)
+*.sdf
+*.mol
+*.mol2
+*.pdb
+*.xyz
+
+# Deployment helpers
+setup.sh
+environment.yml

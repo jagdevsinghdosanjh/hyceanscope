@@ -1,0 +1,6 @@
+py3Dmol
+streamlit
+numpy
+pandas
+plotly
+kaleido
